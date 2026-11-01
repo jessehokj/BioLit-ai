@@ -1,118 +1,132 @@
-# BioLit AI — Testing Checklist
+# BioLit AI — V2.0 Testing Checklist and Evidence Log
 
-**Target:** v2.0 on `v2-development`  
-**Status:** Not yet executed against the deployed v2.0 application  
-**Tester:** _To complete_  
-**Test date / browser / device:** _To complete_  
-**Deployment URL / commit SHA:** _To complete_
+**Target:** V2.0 midterm prototype, merged into `main` and deployed via GitHub Pages  
+**Release date:** 2026-11-01  
+**Status:** Selected manual tests performed; full acceptance suite **not completed**  
+**Tester:** Repository owner (reported screenshots and observations)  
+**Environment:** Mobile browser screenshots, Android tablet/phone-class device; exact browser version not recorded  
+**Deployment:** https://jessehokj.github.io/BioLit-ai/  
+**Release:** `V2.0`  
+**Commit:** Merge commit shown in prior GitHub screenshot (`6561571`); confirm full SHA in repository before using it as an immutable test identifier.
 
-Mark each item only after personally verifying it. Record **Pass / Fail / Blocked / Not tested**, observed behavior, and screenshots or console errors for failures. Do not treat a checked box as proof of automated testing.
+## Status conventions
+
+- **Pass:** specific behavior visibly demonstrated or explicitly confirmed.
+- **Partial:** part of a workflow demonstrated; remaining acceptance criteria not established.
+- **Blocked:** cannot complete without an external dependency.
+- **Not tested:** no reliable execution evidence available.
+- **Fail:** a tested requirement demonstrably failed; record steps and evidence.
+
+Statuses below are based on the screenshots and observations reported during the V2.0 midterm workflow, **not** a new automated test run. Do not convert Partial/Not tested to Pass without retesting.
 
 ## A. Repository and deployment
 
-- [ ] `main` still contains the original v1.0 `index.html`.
-- [ ] `v2-development` contains the v2.0 `index.html` and documentation files.
-- [ ] GitHub Pages is configured to publish `v2-development` from `/(root)`.
-- [ ] Deployment succeeds and the page opens over HTTPS.
-- [ ] Page title/version visibly identifies v2.0.
-- [ ] Browser developer console shows no blocking JavaScript errors.
+- [x] `main` contains V2.0 after successful pull-request merge. **Pass**
+- [x] V1.0 is preserved by its `V1.0` release/tag. **Pass** (historical snapshot, not current `main`)
+- [x] V2.0 release/tag created. **Pass**
+- [x] GitHub Pages deploys from `main` and `/(root)`; deployment workflow succeeded. **Pass**
+- [x] Live site opened and user reported it working. **Pass**
+- [ ] No blocking JavaScript errors in browser console. **Not tested**
 
 ## B. Navigation and responsive layout
 
-- [ ] All six sections open: Article Library, Smart Import, Article Editor, Compare Studies, Evidence Review, AI Assistant.
-- [ ] Layout remains usable on a tablet or phone in portrait and landscape.
-- [ ] Forms, buttons, and cards do not overlap or clip important content.
-- [ ] Keyboard navigation and form labels are usable where applicable.
+- [x] Screenshots show all six navigation sections available. **Pass** (visibility/navigation demonstrated)
+- [ ] Each section's complete functionality verified. **Partial**
+- [ ] Portrait and landscape layout across multiple screen sizes. **Partial** (mobile screenshots only)
+- [ ] No clipping/overlap across supported viewports. **Not tested systematically**
+- [ ] Keyboard navigation, labels, and accessibility checks. **Not tested**
 
 ## C. Article library and editor
 
-- [ ] Empty library displays a useful message.
-- [ ] Fictional demo records load and are clearly labeled as fictional.
-- [ ] Create a manual article with a title and save it.
-- [ ] Edit that article and confirm the changes persist after reload.
-- [ ] Search matches title or author; tag filtering works.
-- [ ] Delete a test article; confirmation is shown and record disappears.
-- [ ] Missing optional scientific fields are not represented as verified findings.
-- [ ] Invalid required form input is rejected.
+- [x] Saved article records displayed in library. **Pass**
+- [x] Article saved successfully; confirmation message shown. **Pass**
+- [x] Delete function worked, as explicitly reported. **Pass**
+- [ ] Search and tag filter behavior. **Not independently verified**
+- [ ] Edit existing record and confirm persistence after reload. **Not independently verified**
+- [ ] Empty-library message, invalid input, and optional field handling. **Not tested**
+- [ ] Records persist after a browser restart. **Not tested**
 
 ## D. DOI metadata import
 
-- [ ] Enter a known valid DOI; lookup populates available title, authors, year, source URL, and (when supplied) abstract.
-- [ ] DOI URL format (`https://doi.org/...`) also works.
-- [ ] Research question, methods, findings, and limitations are **not fabricated** by DOI lookup.
-- [ ] Invalid DOI produces a clear error.
-- [ ] Unavailable DOI / network failure produces a recoverable error.
-- [ ] Imported record can be corrected and saved.
+- [x] DOI lookup populated bibliographic fields and an available abstract in the editor. **Pass for tested DOI**
+- [x] DOI URL input worked for at least one example. **Pass**
+- [x] No invented methodology, findings, or limitations appeared in the imported draft. **Pass for observed example**
+- [x] Invalid DOI generated an error message in a screenshot. **Pass for observed invalid input**
+- [ ] Unavailable DOI, provider outage, and network error handling. **Not fully tested**
+- [ ] Bibliographic fields systematically cross-checked against original publisher page. **Not recorded**
 
-**Suggested real-world test:** use a DOI from a paper you already have access to; compare every populated field with the publisher page. Do not assume Crossref always supplies an abstract.
+**Known limitation:** Crossref metadata is bibliographic; it does not automatically supply a complete research analysis.
 
 ## E. PDF import
 
-- [ ] Upload a text-based PDF under 15 MB; text extraction completes.
-- [ ] Extracted text appears in the editable source-text field.
-- [ ] Filename is treated as a provisional title, not verified metadata.
-- [ ] No unsupported methods, findings, or limitations are auto-generated.
-- [ ] Scanned/image-only PDF produces an understandable failure or empty-text warning.
-- [ ] File over 15 MB is rejected.
-- [ ] Large document behavior respects first-60-pages and 150,000-character limits.
-- [ ] Extraction failure does not erase previously saved articles.
+- [x] PDF extraction placed text in the extracted source-text field, per user observation. **Pass for basic text extraction**
+- [x] Provisional title derived from filename, per user observation. **Observed limitation**
+- [ ] Structured extraction of article title, question, methods, findings, and limitations. **Not implemented; not a V2.0 passing requirement**
+- [ ] Image-only/scanned PDF behavior. **Not tested**
+- [ ] Files above 15 MB rejected. **Not tested**
+- [ ] First-60-pages and 150,000-character limits enforced. **Not tested**
+- [ ] Extraction failures preserve saved records. **Not tested**
+
+**Known limitation:** PDF import copies selectable text, not a validated scientific summary; it can misidentify the article title when the filename differs from the title.
 
 ## F. Comparison and evidence review
 
-- [ ] Two different records produce a side-by-side comparison.
-- [ ] Selecting the same record twice is rejected.
-- [ ] Comparison content matches saved notes without invented conclusions.
-- [ ] Save an evidence review with claim, article, assessment, and reasoning.
-- [ ] Edit and delete an evidence review.
-- [ ] Assessment is clearly labeled as user judgment, not verified scientific fact.
-- [ ] Deleting an article handles its linked evidence reviews as described by the interface.
+- [x] Two different saved articles could be selected in the comparison interface. **Pass for selection**
+- [ ] Generated comparison output accurately displays both records. **Not fully evidenced by screenshots**
+- [ ] Same-article selection rejected in V2.0. **Not retested** (previously observed in V1.0)
+- [ ] Comparison derives substantive analysis directly from DOI/PDF. **Not implemented; comparison depends on saved notes**
+- [ ] Create, edit, and delete evidence review in V2.0. **Not fully verified**
+- [ ] Deleting a linked article handles evidence reviews safely. **Not tested**
 
-## G. Data storage and backup
+## G. Storage, backup, and migration
 
-- [ ] Saved records persist after refreshing the same site and browser.
-- [ ] Export downloads valid JSON containing articles and reviews.
-- [ ] Import a previously exported backup and verify record contents.
-- [ ] Malformed JSON is rejected without overwriting existing records.
-- [ ] Import replacement confirmation appears before overwriting records.
-- [ ] Clearing v2 records asks for confirmation.
-- [ ] Test whether v1 records migrate on first v2 launch **when both versions share the same browser origin and v1 storage exists**.
-- [ ] Confirm migration does not modify the original v1 data.
-- [ ] Confirm that switching between local file URLs and GitHub Pages does **not** automatically transfer browser-local data; use JSON backup as needed.
+- [x] Library displayed records marked as V1 migrated. **Pass for visible migration outcome**
+- [ ] V1 original storage remains byte-for-byte unchanged. **Not independently verified**
+- [ ] JSON export contains complete valid records. **Not retested in V2.0**
+- [ ] JSON import restores exported records correctly. **Not tested**
+- [ ] Malformed JSON rejected without data loss. **Not tested**
+- [ ] Replacement/clear confirmations work. **Not tested**
+- [ ] Local-file origin and GitHub Pages storage remain separate. **Expected browser behavior; not a demonstrated migration test**
 
-## H. AI assistant (requires backend)
+**Safety note:** Export a JSON backup before any destructive testing or storage migration.
 
-- [ ] Without a configured endpoint, application explains what is missing.
-- [ ] Non-HTTPS endpoint is rejected.
-- [ ] User must confirm before sending article data to backend.
-- [ ] Configured trusted backend receives selected article and task.
-- [ ] Valid backend response renders as an **unverified AI draft**.
-- [ ] Backend failure / CORS error produces an understandable message.
-- [ ] No API keys or secrets appear in frontend source or Git history.
+## H. AI assistant
 
-**If no backend exists:** mark backend-dependent tests **Blocked**, not Pass.
+- [x] AI Assistant configuration interface displayed. **Pass for interface visibility**
+- [ ] No-endpoint, invalid endpoint, and error-message handling. **Not tested**
+- [ ] Confirm before transmitting article data. **Not tested**
+- [ ] External backend accepts article/task request and returns an analysis. **Blocked — no backend configured**
+- [ ] AI output is displayed as unverified draft with citations if provided. **Blocked — no backend configured**
+- [ ] Backend CORS/authentication/rate-limit and secret-handling checks. **Blocked — no backend configured**
 
-## I. Regression and release gate
+**Important:** An AI Assistant UI is **not** evidence of operational AI analysis.
 
-- [ ] Recheck all v1.0 workflows on v2.0.
-- [ ] Verify v1.0 still works on `main`.
-- [ ] No critical data-loss, security, or blocking functionality defects remain.
-- [ ] README and CHANGELOG match observed behavior.
-- [ ] Record known issues and decide whether v2.0 is ready for release.
+## I. Regression and release acceptance
+
+- [x] V1.0 release snapshot preserved. **Pass**
+- [x] V2.0 merged into `main` and deployed. **Pass**
+- [x] V2.0 midterm release published. **Pass**
+- [ ] Complete V1.0 workflow retested using the `V1.0` release source. **Not recorded**
+- [ ] All critical data-loss/security tests passed. **Not established**
+- [ ] All functional acceptance criteria passed. **Not established**
+- [x] Known DOI, PDF, comparison, and AI limitations documented. **Pass (documentation)**
+
+**Release decision:** V2.0 was accepted as the **functional midterm prototype**, not as a production-ready or fully validated scientific analysis system. Outstanding tests remain open for the next development cycle.
 
 ## Test execution log
 
-| ID | Area | Result | Device / browser | Evidence / issue |
+| ID | Area | Status | Evidence / observation | Next verification |
 | --- | --- | --- | --- | --- |
-| T01 | Deployment | Not tested | — | — |
-| T02 | Article library | Not tested | — | — |
-| T03 | DOI import | Not tested | — | — |
-| T04 | PDF import | Not tested | — | — |
-| T05 | Comparison | Not tested | — | — |
-| T06 | Evidence review | Not tested | — | — |
-| T07 | JSON backup | Not tested | — | — |
-| T08 | v1 migration | Not tested | — | — |
-| T09 | AI backend | Blocked — backend not configured | — | — |
-| T10 | Mobile layout | Not tested | — | — |
+| T01 | Deployment | Pass | Successful Pages workflow and live-site confirmation | Capture deployment SHA and URL screenshot |
+| T02 | Article library | Partial | Saved records visible; save and delete observed | Search, filter, edit, persistence |
+| T03 | DOI import | Partial | DOI metadata and abstract populated; invalid DOI message shown | Cross-check against publisher; network failures |
+| T04 | PDF import | Partial | Text extraction observed; filename used as provisional title | Edge cases, size limits, OCR warning |
+| T05 | Comparison | Partial | Two records selected; full generated output not shown | Compare saved notes and same-article validation |
+| T06 | Evidence review | Not tested | No complete V2.0 workflow evidence supplied | Create/edit/delete and linked-record behavior |
+| T07 | JSON backup | Not tested | V2.0 round-trip not documented | Export/import and corrupt-file tests |
+| T08 | V1 migration | Partial | V1-migrated labels visible | Verify original V1 storage remains intact |
+| T09 | AI backend | Blocked | No backend configured | Secure integration and response/error tests |
+| T10 | Responsive layout | Partial | Mobile screenshots show usable screens | Portrait/landscape and accessibility audit |
 
 ## Defect report template
 
@@ -125,6 +139,6 @@ Mark each item only after personally verifying it. Record **Pass / Fail / Blocke
 **Evidence:** Screenshot / console error  
 **Resolution / retest:** …
 
-## Acceptance criteria
+## Next-cycle acceptance gate
 
-Do not declare v2.0 complete until deployment, article management, comparison, evidence review, and backup tests pass; DOI and PDF capabilities are tested or explicitly documented as limited; and AI functionality is either verified with a secure backend or clearly labeled unavailable. Preserve `main` throughout development.
+Before claiming a fully validated V2.0 workflow or shipping an expanded version: test data persistence, backup round-trip, migration integrity, evidence review, comparison rendering, DOI/PDF edge cases, and accessibility. AI features must remain explicitly unavailable until a secure backend is deployed and tested. Preserve both release tags throughout subsequent development.
